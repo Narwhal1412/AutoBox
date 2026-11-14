@@ -1,0 +1,3 @@
+This will create a temporary virtual machine on the Proxmox server.
+It is automatically deleted after 2 days.
+
