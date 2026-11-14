@@ -1,0 +1,36 @@
+AutoBox server cleanup installation (Proxmox host)
+==================================================
+
+Run these commands on the Proxmox host as root. Copy the cleanup script from
+this project to the host first, then install it:
+
+  install -m 0755 autobox-cleanup.sh /usr/local/bin/autobox-cleanup.sh
+
+Create the cron file:
+
+  cat > /etc/cron.d/autobox-cleanup <<'EOF'
+  SHELL=/bin/sh
+  PATH=/usr/sbin:/usr/bin:/sbin:/bin
+  */10 * * * * root /usr/local/bin/autobox-cleanup.sh
+  EOF
+  chmod 0644 /etc/cron.d/autobox-cleanup
+
+The script checks every container's tags and acts only when it has an exact
+autobox tag and an expired exp-<epoch> tag. It stops a running expired
+container, then runs pct destroy <id> --purge. Actions are logged in
+/var/log/autobox-cleanup.log. Review the log after installation.
+
+Optional: use a limited API token instead of root@pam
+-----------------------------------------------------
+This permission recipe has not been tested. Review it against your Proxmox
+version and security requirements before granting access.
+
+Create user autobox@pve. Create its API token with --privsep 0 (Privilege
+Separation disabled). Grant these ACLs:
+
+  PVEVMAdmin on /vms
+  PVEDatastoreUser on /storage
+  PVESDNUser on /sdn/zones/localnetwork
+
+The cleanup script itself runs on the Proxmox host as root and does not use
+this API token. The token is used by the client when creating containers.

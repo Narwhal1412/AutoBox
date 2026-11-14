@@ -1,0 +1,25 @@
+# Copy this file to settings.txt, then fill in the required connection values.
+# PVE_HOST is the Proxmox IP address (port 8006 is added automatically).
+PVE_HOST=
+PVE_USER=root@pam
+PVE_TOKEN_NAME=
+PVE_TOKEN_SECRET=
+# Leave PVE_NODE empty to use the first node found.
+PVE_NODE=
+# Leave TEMPLATE empty to use the first template found on any storage.
+TEMPLATE=sas-bulk:vztmpl/debian-13-standard_13.6-1_amd64.tar.zst
+CORES=1
+MEMORY=512
+DISK=8
+# Leave STORAGE empty to prefer local-lvm, otherwise the first rootdir storage.
+STORAGE=ssd-storage
+# Use dhcp, or a static value such as 192.168.1.150/24,gw=192.168.1.1
+IP_MODE=dhcp
+BRIDGE=vmbr0
+ROOT_PASSWORD=docker
+NAME_PREFIX=client
+# Optional example: nesting=1,keyctl=1
+FEATURES=
+LIFETIME_DAYS=2
+# 0 accepts the self-signed Proxmox certificate; 1 verifies it.
+VERIFY_SSL=0

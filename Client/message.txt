@@ -1,0 +1,2 @@
+This will create a temporary container on the Proxmox server.
+It is automatically deleted after 2 days.
