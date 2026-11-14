@@ -18,7 +18,11 @@ Create the cron file:
 The script checks every container's tags and acts only when it has an exact
 autobox tag and an expired exp-<epoch> tag. It stops a running expired
 container, then runs pct destroy <id> --purge. Actions are logged in
-/var/log/autobox-cleanup.log. Review the log after installation.
+/var/log/autobox-cleanup.log. It also checks VMs with qm list and qm config,
+skips template VMs, and only stops/destroys VMs with both the autobox tag and
+an expired exp-<epoch> tag. Expired VMs are destroyed with
+qm destroy <id> --purge --destroy-unreferenced-disks 1. Review the log after
+installation.
 
 Optional: use a limited API token instead of root@pam
 -----------------------------------------------------
@@ -31,6 +35,11 @@ Separation disabled). Grant these ACLs:
   PVEVMAdmin on /vms
   PVEDatastoreUser on /storage
   PVESDNUser on /sdn/zones/localnetwork
+
+For VM cloning, additional permissions may be needed: VM.Clone, VM.Config.*,
+VM.PowerMgmt, and Datastore.AllocateSpace on the selected target storage.
+Pool and SDN permissions may also be needed in your setup. These ACL details
+are untested; verify them against your Proxmox version before use.
 
 The cleanup script itself runs on the Proxmox host as root and does not use
 this API token. The token is used by the client when creating containers.

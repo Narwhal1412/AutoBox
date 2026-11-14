@@ -23,3 +23,21 @@ FEATURES=
 LIFETIME_DAYS=2
 # 0 accepts the self-signed Proxmox certificate; 1 verifies it.
 VERIFY_SSL=0
+
+# ---- VM EDITION ----
+VM_TEMPLATE_ID=
+VM_NAME_PREFIX=vm
+VM_CORES=2
+VM_MEMORY=2048
+VM_DISK_GB=
+VM_STORAGE=
+VM_USER=root
+VM_PASSWORD=docker
+VM_IP_MODE=dhcp
+VM_BRIDGE=
+# linux uses cloud-init fields; windows omits them.
+VM_GUEST_OS=linux
+# full copies the template disk; linked shares the template disk.
+VM_CLONE_MODE=full
+# Maximum seconds to wait for clone and start tasks.
+VM_CLONE_TIMEOUT=1800
