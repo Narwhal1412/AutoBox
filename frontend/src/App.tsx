@@ -249,7 +249,13 @@ function VMs({ vms, setVms }: { vms: VM[]; setVms: (f: (p: VM[]) => VM[]) => voi
               <button
                 className={`${icon} ${vm.running ? 'text-amber-300' : 'text-emerald-300'}`}
                 title={vm.running ? 'Pause' : 'Start'}
-                onClick={() => upd(vm.id, { running: !vm.running })}
+                onClick={() => {
+                  const nextState = !vm.running
+                  upd(vm.id, { running: nextState })
+                  if (nextState) {
+                    window.open('http://localhost:8006', '_blank')
+                  }
+                }}
               >
                 <I d={vm.running ? ic.pause : ic.play} />
               </button>
